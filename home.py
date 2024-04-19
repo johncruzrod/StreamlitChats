@@ -28,6 +28,12 @@ st.markdown(
         color: #2ca02c;
         font-weight: bold;
     }
+    .container {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -43,35 +49,46 @@ st.markdown(
     """
 )
 
-st.markdown('<div class="model-title">Chat with Gemini 1.5 Pro</div>', unsafe_allow_html=True)
-st.markdown(
-    """
-    <div class="model-description">
-    Powered by Vertex AI SDK and the Gemini model, this chat app utilizes Google's state-of-the-art Gemini 1.5 Pro model for engaging conversations. Gemini 1.5 Pro is known for its high-quality responses and ability to maintain context throughout the chat.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+col1, col2, col3 = st.columns(3)
 
-st.markdown('<div class="model-title">Chat with GPT-4</div>', unsafe_allow_html=True)
-st.markdown(
-    """
-    <div class="model-description">
-    Powered by OpenAI's GPT-4 model, this chat app leverages the advanced language understanding and generation capabilities of GPT-4. GPT-4 is renowned for its ability to engage in human-like conversations, provide informative responses, and assist with a wide range of tasks.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+with col1:
+    with st.container():
+        st.markdown('<div class="model-title">Chat with Gemini 1.5 Pro</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by Vertex AI SDK and the Gemini model, this chat app utilizes Google's state-of-the-art Gemini 1.5 Pro model for engaging conversations. Gemini 1.5 Pro is known for its high-quality responses and ability to maintain context throughout the chat.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        st.image("gemini.png", use_column_width=True)
 
-st.markdown('<div class="model-title">Chat with Claude 3 Opus</div>', unsafe_allow_html=True)
-st.markdown(
-    """
-    <div class="model-description">
-    Powered by Anthropic's Claude 3 Opus model, this chat app offers an interactive experience with Claude, an AI assistant trained using constitutional AI principles. Claude 3 Opus excels at providing thoughtful and coherent responses while adhering to ethical guidelines.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+with col2:
+    with st.container():
+        st.markdown('<div class="model-title">Chat with GPT-4</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by OpenAI's GPT-4 model, this chat app leverages the advanced language understanding and generation capabilities of GPT-4. GPT-4 is renowned for its ability to engage in human-like conversations, provide informative responses, and assist with a wide range of tasks.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        st.image("gpt4.png", use_column_width=True)
+
+with col3:
+    with st.container():
+        st.markdown('<div class="model-title">Chat with Claude 3 Opus</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by Anthropic's Claude 3 Opus model, this chat app offers an interactive experience with Claude, an AI assistant trained using constitutional AI principles. Claude 3 Opus excels at providing thoughtful and coherent responses while adhering to ethical guidelines.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        st.image("claude.png", use_column_width=True)
 
 st.markdown(
     """
