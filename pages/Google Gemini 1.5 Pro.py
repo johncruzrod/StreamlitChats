@@ -4,14 +4,6 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 import vertexai.preview.generative_models as generative_models
 
-# Check if coming from a different app and reset chat
-if 'last_app' not in st.session_state or st.session_state['last_app'] != 'gemini':
-    st.session_state['messages'] = []
-    st.session_state['chat'] = None  # or appropriate reset for Gemini chat
-
-st.session_state['last_app'] = 'Google Gemini 1.5 Pro'
-
-
 # Load the service account credentials from Streamlit secrets
 service_account_info = {
     "type": st.secrets["gcp"]["type"],
