@@ -7,51 +7,39 @@ import os
 client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
 st.set_page_config(layout="wide")
-st.title('Chat with Claude using Anthropic')
+st.title('Chat with Claude')  # Simplified title
 
 # Check if coming from a different app and reset chat
 if 'last_app' not in st.session_state or st.session_state['last_app'] != 'claude':
     st.session_state['claude_messages'] = []
-
 st.session_state['last_app'] = 'claude'
+
+# Function to format and send messages to Claude API
+def run_claude(messages):
+    response = client.messages.create(
+        max_tokens=1024,
+        messages=messages,
+        model="claude-3-opus-20240229",
+    )
+    return response[0].content  # Extract assistant's response
 
 # Handle chat input and display
 if "claude_messages" not in st.session_state:
     st.session_state.claude_messages = []
 
-# Display previous messages
+# Chat history
 for message in st.session_state.claude_messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-user_input = st.text_input("What is up?", key="claude_input")
-if st.button('Send', key='claude_send'):
-    if user_input:
-        # Append user message
-        st.session_state.claude_messages.append({"role": "user", "content": user_input})
-        # Display user message
-        with st.chat_message("user"):
-            st.markdown(user_input)
-        # Send message to Claude
-        with st.spinner('Waiting for the assistant to respond...'):
-            message = client.messages.create(
-                max_tokens=1024,
-                messages=[
-                    {"role": "user", "content": user_input}
-                ] + [
-                    {"role": "assistant", "content": m["content"]}
-                    for m in st.session_state.claude_messages if m["role"] == "assistant"
-                ],
-                model="claude-3-opus-20240229",
-            )
-            if 'error' not in message:
-                assistant_response = message.content[0]['text']  # Assuming the API returns a list with a single dict containing the text
-                st.session_state.claude_messages.append({"role": "assistant", "content": assistant_response})
-                # Display assistant message
-                with st.chat_message("assistant"):
-                    st.markdown(assistant_response)
-            else:
-                st.error("An error occurred while fetching the response.")
-        
-        # Clear input box after sending the message
-        st.session_state['claude_input'] = ""
+# Input for new message
+user_question = st.chat_input("What is up?")  # Using chat_input
+if user_question:
+    st.session_state.claude_messages.append({"role": "user", "content": user_question})
+    with st.chat_message("user"):
+        st.markdown(user_question)
+    with st.chat_message("assistant"):
+        with st.spinner('Waiting for Claude to respond...'):
+            response_text = run_claude(st.session_state.claude_messages)
+            st.markdown(response_text)
+            st.session_state.claude_messages.append({"role": "assistant", "content": response_text})
