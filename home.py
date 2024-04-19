@@ -1,121 +1,72 @@
 import streamlit as st
 
-st.set_page_config(page_title="Welcome", page_icon="👋", layout="wide")
+# Set page config
+st.set_page_config(page_title="AI Chat Models", page_icon="🤖", layout="wide")
 
-# Custom CSS styles
-st.markdown(
-    """
+# Title of the page
+st.title('Welcome to the Chat App! 👋')
+
+# Custom CSS for styling
+st.markdown("""
     <style>
-    .title {
-        font-size: 48px;
-        font-weight: bold;
-        color: #1f77b4;
-        margin-bottom: 30px;
-        text-align: center;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-    .intro {
-        font-size: 24px;
-        margin-bottom: 40px;
-        text-align: center;
-        color: #586069;
-    }
-    .model-card {
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-        padding: 20px;
-        height: 100%;
-        background-color: #fff;
-        transition: all 0.3s ease;
-    }
-    .model-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-    }
-    .model-image {
-        display: block;
-        width: 100%;
-        max-width: 200px;
-        margin: 0 auto;
-        margin-bottom: 20px;
-    }
-    .model-title {
-        font-size: 24px;
-        font-weight: 600;
-        color: #1f77b4;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-    .model-description {
-        font-size: 16px;
-        color: #586069;
-        text-align: center;
-        margin-bottom: 0;
-    }
-    .bottom-text {
-        font-size: 20px;
-        margin-top: 40px;
-        text-align: center;
-        font-weight: bold;
-        color: #2c3e50;
-    }
-    .sidebar .sidebar-content {
-        background-color: #f6f8fa;
-    }
+        .box {
+            border: 1px solid #aaa;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        .model-title {
+            color: #ff4b4b;
+            font-weight: bold;
+            margin: 0;
+        }
+        .model-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 10px;
+        }
+        .model-description {
+            padding: 10px 0;
+        }
     </style>
-    """,
-    unsafe_allow_html=True
-)
+    """, unsafe_allow_html=True)
 
-st.write('<div class="title">Welcome to the Chat App! 👋</div>', unsafe_allow_html=True)
+# Container for the AI models
+with st.container():
+    # Using columns to display the AI models side by side
+    col1, col2, col3 = st.columns(3)
+    
+    # Google Gemini 1.5 Pro
+    with col1:
+        st.markdown("<div class='box'>", unsafe_allow_html=True)
+        st.markdown("#### 🌌 Google Gemini 1.5 Pro", unsafe_allow_html=True)
+        st.write("""
+            A versatile chatbot model powered by Vertex AI SDK, excelling in understanding context 
+            and generating human-like responses across diverse topics.
+        """)
+        st.markdown("</div>", unsafe_allow_html=True)
+    
+    # GPT-4
+    with col2:
+        st.markdown("<div class='box'>", unsafe_allow_html=True)
+        st.markdown("#### 🧠 GPT-4", unsafe_allow_html=True)
+        st.write("""
+            OpenAI's language model famous for its depth of knowledge, able to perform a wide 
+            variety of tasks with nuance and understanding.
+        """)
+        st.markdown("</div>", unsafe_allow_html=True)
+    
+    # Claude 3 Opus
+    with col3:
+        st.markdown("<div class='box'>", unsafe_allow_html=True)
+        st.markdown("#### 🎶 Claude 3 Opus", unsafe_allow_html=True)
+        st.write("""
+            Built by Anthropic, Claude 3 Opus focuses on safe and ethically-aligned conversations, 
+            providing accurate and considerate responses.
+        """)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-st.write('<div class="intro">Choose an AI-powered chat app to start an engaging conversation:</div>', unsafe_allow_html=True)
-
-col1, col2, col3 = st.columns((1, 1, 1))
-
-with col1:
-    with st.container():
-        st.markdown(
-            """
-            <div class="model-card">
-                <img src="gemini.png" alt="Gemini 1.5 Pro" class="model-image">
-                <h3 class="model-title">Gemini 1.5 Pro</h3>
-                <p class="model-description">Powered by Vertex AI SDK and the Gemini model for engaging conversations.</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-with col2:
-    with st.container():
-        st.markdown(
-            """
-            <div class="model-card">
-                <img src="gpt4.png" alt="GPT-4" class="model-image">
-                <h3 class="model-title">GPT-4</h3>
-                <p class="model-description">Powered by OpenAI's GPT-4 model for advanced language understanding and generation.</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-with col3:
-    with st.container():
-        st.markdown(
-            """
-            <div class="model-card">
-                <img src="claude.png" alt="Claude 3 Opus" class="model-image">
-                <h3 class="model-title">Claude 3 Opus</h3>
-                <p class="model-description">Powered by Anthropic's Claude 3 Opus model for thoughtful and coherent responses.</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-st.sidebar.title("Navigation")
-app_selection = st.sidebar.radio("Select an app", ("Home", "Chat with Gemini 1.5 Pro", "Chat with GPT-4", "Chat with Claude 3 Opus"))
-
-if app_selection != "Home":
-    st.sidebar.success(f"You selected: {app_selection}")
-else:
-    st.write('<div class="bottom-text">👈 Select a chat app from the sidebar to start chatting!</div>', unsafe_allow_html=True)
+# Footer
+st.markdown("👈 Select a chat app from the sidebar to start chatting! Explore different AI chat experiences here!")
