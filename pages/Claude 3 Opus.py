@@ -25,7 +25,7 @@ def run_claude(messages, system_prompt):
     return response.content  # Extract assistant's response
 
 # Define the hard-coded system prompt
-system_prompt = "You are a helpful AI assistant."
+system_prompt = "You are a helpful AI assistant. Provide clear, helpful and detailed answers to any user request."
 
 # Handle chat input and display
 if "claude_messages" not in st.session_state:
