@@ -7,10 +7,16 @@ st.markdown(
     """
     <style>
     .title {
-        font-size: 36px;
+        font-size: 48px;
         font-weight: bold;
         color: #1f77b4;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .intro {
+        font-size: 24px;
+        margin-bottom: 40px;
+        text-align: center;
     }
     .model-title {
         font-size: 24px;
@@ -18,10 +24,12 @@ st.markdown(
         color: #2c3e50;
         margin-top: 20px;
         margin-bottom: 10px;
+        text-align: center;
     }
     .model-description {
         font-size: 18px;
         margin-bottom: 20px;
+        text-align: justify;
     }
     .css-1q8dd3e {
         font-size: 18px;
@@ -29,17 +37,17 @@ st.markdown(
         font-weight: bold;
     }
     .container {
-        background-color: #f5f5f5;
         padding: 20px;
+        background-color: #f5f5f5;
         border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin-bottom: 30px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    .column {
-        padding: 20px;
-        background-color: #f5f5f5;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .bottom-text {
+        font-size: 20px;
+        margin-top: 40px;
+        text-align: center;
+        font-weight: bold;
     }
     </style>
     """,
@@ -48,13 +56,7 @@ st.markdown(
 
 st.write('<div class="title">Welcome to the Chat App! 👋</div>', unsafe_allow_html=True)
 
-st.sidebar.success('Select a chat app from the sidebar.')
-
-st.markdown(
-    """
-    This is a multipage chat application built with Streamlit. You can choose between three chat apps powered by different AI models:
-    """
-)
+st.write('<div class="intro">This is a multipage chat application built with Streamlit. You can choose between three chat apps powered by different AI models:</div>', unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns((1, 1, 1))
 
@@ -97,8 +99,6 @@ with col3:
             unsafe_allow_html=True
         )
 
-st.markdown(
-    """
-    **👈 Select a chat app from the sidebar to start chatting!**
-    """
-)
+st.sidebar.success('Select a chat app from the sidebar.')
+
+st.write('<div class="bottom-text">👈 Select a chat app from the sidebar to start chatting!</div>', unsafe_allow_html=True)
