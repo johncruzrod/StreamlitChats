@@ -1,47 +1,65 @@
 import streamlit as st
 
-# Page configuration
-st.set_page_config(
-    page_title="AI Chat Explorer",
-    page_icon="🤖",
-    layout="wide"
-)
+# Set page config
+st.set_page_config(page_title="Welcome to the AI Chat Models", page_icon="🤖", layout="wide")
 
-# Welcome message
-st.title("🤖 AI Chat Explorer")
-st.write("## Engage with Cutting-Edge Language Models!")
+# Header of the page
+st.title('Welcome to the Chat App! 👋')
 
-# Model descriptions with columns, containers, and images
-col1, col2, col3 = st.columns(3)
+# Use container and columns to create boxes around each model's description
+with st.container():
+    col1, col2, col3 = st.columns([1, 1, 1])
 
-with col1:
-    with st.container():  # Container for Gemini
-        st.subheader("Gemini 1.5 Pro (Vertex AI)")
-        st.write("Google's advanced language model, trained on a massive dataset, excels in understanding and responding to complex queries, generating different creative text formats, and translating languages.")
-        st.image("gemini.png", width=200)  # Assuming images are in the root folder
+    # CSS to inject contained in a markdown
+    st.markdown("""
+        <style>
+        .box {
+            border: 1px solid #9baacf;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+        }
+        .image {
+            height: 150px;  # Adjust if needed
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
-with col2:
-    with st.container():  # Container for GPT-4
-        st.subheader("GPT-4 (OpenAI)")
-        st.write("A powerhouse in the AI world, renowned for its ability to generate human-quality text, translate languages, write different kinds of creative content, and answer your questions in an informative way.")
-        st.image("gpt4.png", width=200)
+    with col1:
+        st.markdown("<div class='box'>", unsafe_allow_html=True)
+        st.image("gemini.png", use_column_width=True, caption='Google Gemini 1.5 Pro', classes='image')
+        st.header("Google Gemini 1.5 Pro 🌌")
+        st.write("""
+            Google's Gemini 1.5 Pro is a cutting-edge chatbot model powered by Vertex AI SDK. 
+            This model is exceptional at understanding context and generating human-like responses.
+            It's versatile and can engage in a wide range of conversation topics.
+        """)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-with col3:
-    with st.container():  # Container for Claude
-        st.subheader("Claude 3 Opus (Anthropic)")
-        st.write("Known for its safety and helpfulness, this AI assistant is trained to be informative and comprehensive, providing summaries of factual topics or creating stories.") 
-        st.image("claude.png", width=200)
+    with col2:
+        st.markdown("<div class='box'>", unsafe_allow_html=True)
+        st.image("gpt4.png", use_column_width=True, caption='OpenAI GPT-4', classes='image')
+        st.header("GPT-4 🧠")
+        st.write("""
+            OpenAI's GPT-4 is a top-tier language model renowned for its extensive knowledge and comprehension.
+            It's adept at performing a variety of tasks, including answering complex questions and creating content
+            with depth and nuance.
+        """)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-# Placeholder for chat functionality (you'll need to implement this)
-# You can choose a default model or ask the user for input in another way
-st.write("## Chat with Your Chosen AI") 
+    with col3:
+        st.markdown("<div class='box'>", unsafe_allow_html=True)
+        st.image("claude.png", use_column_width=True, caption='Claude 3 Opus', classes='image')
+        st.header("Claude 3 Opus 🎶")
+        st.write("""
+            Claude 3 Opus by Anthropic focuses on safety and ethical alignment in AI conversations.
+            It ensures that responses are not only accurate but also respectful and considerate of the user's intentions.
+        """)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-# ... Add your chat implementation logic here ...
-
-# Footer (optional)
-st.sidebar.markdown("---")
-st.sidebar.info(
-    "This app showcases the capabilities of different large language models. "
-    "Learn more about them: [Vertex AI](https://cloud.google.com/vertex-ai), "
-    "[OpenAI](https://openai.com/), [Anthropic](https://www.anthropic.com/)"
-)
+# Footer
+st.markdown("👈 Select a chat app from the sidebar to start chatting! Enjoy exploring different AI chat experiences here!")
