@@ -3,92 +3,122 @@ import streamlit as st
 st.set_page_config(page_title="Welcome", page_icon="👋", layout="wide")
 
 # Custom CSS styles
-st.markdown("""
+st.markdown(
+    """
     <style>
-        .title {
-            font-size: 48px;
-            font-weight: bold;
-            color: #1f77b4;
-            margin-bottom: 30px;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .intro {
-            font-size: 24px;
-            margin-bottom: 40px;
-            text-align: center;
-            color: #586069;
-        }
-        .model-card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-            padding: 20px;
-            background-color: #fff;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .model-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-        }
-        .model-image {
-            max-height: 150px; /* Fixed height for all images */
-            object-fit: contain; /* Keeps the aspect ratio of the image */
-            width: auto; /* Adjusts the width automatically */
-        }
-        .model-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #1f77b4;
-            margin-top: 20px;
-            text-align: center;
-        }
-        .model-description {
-            font-size: 16px;
-            color: #586069;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .bottom-text {
-            font-size: 20px;
-            margin-top: 40px;
-            text-align: center;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .sidebar .sidebar-content {
-            background-color: #f6f8fa;
-        }
+    .title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #1f77b4;
+        margin-bottom: 20px;
+    }
+    .model-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    .model-description {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    .css-1q8dd3e {
+        font-size: 18px;
+        color: #2ca02c;
+        font-weight: bold;
+    }
+    .container {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;  
+    }
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px; 
+    }
+    img {
+        max-height: 100%;
+        max-width: 100%;
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-st.markdown('<div class="title">Welcome to the Chat App! 👋</div>', unsafe_allow_html=True)
-st.markdown('<div class="intro">Choose an AI-powered chat app to start an engaging conversation:</div>', unsafe_allow_html=True)
+st.write('<div class="title">Welcome to the Chat App! 👋</div>', unsafe_allow_html=True)
 
-# Displaying images and model details in a card layout
-with st.container():
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown("<div class='model-card'>", unsafe_allow_html=True)
-        st.image("gemini.png", use_column_width=True, caption="Gemini 1.5 Pro", output_format="PNG")
-        st.markdown("<div class='model-title'>Gemini 1.5 Pro</div>", unsafe_allow_html=True)
-        st.markdown("<div class='model-description'>Powered by Vertex AI SDK and the Gemini model for engaging conversations.</div>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-    with col2:
-        st.markdown("<div class='model-card'>", unsafe_allow_html=True)
-        st.image("gpt4.png", use_column_width=True, caption="GPT-4", output_format="PNG")
-        st.markdown("<div class='model-title'>GPT-4</div>", unsafe_allow_html=True)
-        st.markdown("<div class='model-description'>Powered by OpenAI's GPT-4 model for advanced language understanding and generation.</div>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-    with col3:
-        st.markdown("<div class='model-card'>", unsafe_allow_html=True)
-        st.image("claude.png", use_column_width=True, caption="Claude 3 Opus", output_format="PNG")
-        st.markdown("<div class='model-title'>Claude 3 Opus</div>", unsafe_allow_html=True)
-        st.markdown("<div class='model-description'>Powered by Anthropic's Claude 3 Opus model for thoughtful and coherent responses.</div>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+st.sidebar.success('Select a chat app from the sidebar.')
 
-st.markdown('<div class="bottom-text">👈 Select a chat app from the sidebar to start chatting!</div>', unsafe_allow_html=True)
+st.markdown(
+    """
+    This is a multipage chat application built with Streamlit. You can choose between three chat apps powered by different AI models:
+    """
+)
+
+col1, col2, col3 = st.columns((1, 1, 1))
+
+with col1:
+    with st.container():
+        st.markdown('<div class="model-title">Chat with Gemini 1.5 Pro</div>', unsafe_allow_html=True)
+        div_with_image = """
+        <div class="image-container">
+            <img src="gemini.png">
+        </div>
+        """
+        st.markdown(div_with_image, unsafe_allow_html=True) 
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by Vertex AI SDK and the Gemini model, this chat app utilizes Google's state-of-the-art Gemini 1.5 Pro model for engaging conversations. Gemini 1.5 Pro is known for its high-quality responses and ability to maintain context throughout the chat.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+with col2:
+    with st.container():
+        st.markdown('<div class="model-title">Chat with GPT-4</div>', unsafe_allow_html=True)
+        div_with_image = """
+        <div class="image-container">
+            <img src="gpt4.png">
+        </div>
+        """
+        st.markdown(div_with_image, unsafe_allow_html=True) 
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by OpenAI's GPT-4 model, this chat app leverages the advanced language understanding and generation capabilities of GPT-4. GPT-4 is renowned for its ability to engage in human-like conversations, provide informative responses, and assist with a wide range of tasks.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+with col3:
+    with st.container():
+        st.markdown('<div class="model-title">Chat with Claude 3 Opus</div>', unsafe_allow_html=True)
+        div_with_image = """
+        <div class="image-container">
+            <img src="claude.png">
+        </div>
+        """
+        st.markdown(div_with_image, unsafe_allow_html=True) 
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by Anthropic's Claude 3 Opus model, this chat app offers an interactive experience with Claude, an AI assistant trained using constitutional AI principles. Claude 3 Opus excels at providing thoughtful and coherent responses while adhering to ethical guidelines.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+st.markdown(
+    """
+    **👈 Select a chat app from the sidebar to start chatting!**
+    """
+)
