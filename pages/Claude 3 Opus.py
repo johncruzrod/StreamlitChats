@@ -16,18 +16,16 @@ st.session_state['last_app'] = 'claude'
 
 # Function to format and send messages to Claude API
 def run_claude(messages, system_prompt):
-    # Prepend the system prompt to the conversation
-    messages = [{"role": "system", "content": system_prompt}] + messages
-
     response = client.messages.create(
         max_tokens=1024,
         messages=messages,
         model="claude-3-opus-20240229",
+        system=system_prompt,  # Pass the system prompt as a separate parameter
     )
     return response.content  # Extract assistant's response
 
 # Define the hard-coded system prompt
-system_prompt = "You are a helpful AI assistant. Provide clear and detailed answers to any user request, being helpul and informative."
+system_prompt = "You are a helpful AI assistant."
 
 # Handle chat input and display
 if "claude_messages" not in st.session_state:
