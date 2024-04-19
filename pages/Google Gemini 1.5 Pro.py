@@ -43,34 +43,40 @@ safety_settings = {
 }
 
 # Streamlit UI setup
-st.title('Chat with Gemini')
+st.set_page_config(layout="wide")
+col1, col2, col3 = st.columns([1, 8, 1])
 
-if 'gemini_chat' not in st.session_state:
-    st.session_state.gemini_chat = model.start_chat()
+with col1:
+    pass  # Left padding column
 
-if "gemini_messages" not in st.session_state:
-    st.session_state.gemini_messages = []
+with col2:
+    st.title('Chat with Gemini')
+    if 'gemini_chat' not in st.session_state:
+        st.session_state.gemini_chat = model.start_chat()
+    if "gemini_messages" not in st.session_state:
+        st.session_state.gemini_messages = []
+    for message in st.session_state.gemini_messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+    user_input = st.chat_input("What is up?")
+    if user_input:
+        st.session_state.gemini_messages.append({"role": "user", "content": user_input})
+        with st.chat_message("user"):
+            st.markdown(user_input)
+        with st.chat_message("assistant"):
+            with st.spinner('Waiting for the assistant to respond...'):
+                conversation_history = [f"{message['role']}: {message['content']}" for message in st.session_state.gemini_messages]
+                response = st.session_state.gemini_chat.send_message(
+                    conversation_history,
+                    generation_config=generation_config,
+                    safety_settings=safety_settings
+                )
+                if isinstance(response, str):
+                    st.error(response)
+                else:
+                    response_text = response.text
+                    st.markdown(response_text)
+                    st.session_state.gemini_messages.append({"role": "assistant", "content": response_text})
 
-for message in st.session_state.gemini_messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-
-user_input = st.chat_input("What is up?")
-if user_input:
-    st.session_state.gemini_messages.append({"role": "user", "content": user_input})
-    with st.chat_message("user"):
-        st.markdown(user_input)
-    with st.chat_message("assistant"):
-        with st.spinner('Waiting for the assistant to respond...'):
-            conversation_history = [f"{message['role']}: {message['content']}" for message in st.session_state.gemini_messages]
-            response = st.session_state.gemini_chat.send_message(
-                conversation_history,
-                generation_config=generation_config,
-                safety_settings=safety_settings
-            )
-            if isinstance(response, str):
-                st.error(response)
-            else:
-                response_text = response.text
-                st.markdown(response_text)
-                st.session_state.gemini_messages.append({"role": "assistant", "content": response_text})
+with col3:
+    pass  # Right padding column
