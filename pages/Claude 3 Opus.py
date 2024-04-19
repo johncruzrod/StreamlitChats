@@ -21,7 +21,7 @@ def run_claude(messages):
         messages=messages,
         model="claude-3-opus-20240229",
     )
-    return response[0].content  # Extract assistant's response
+    return response.content  # Extract assistant's response
 
 # Handle chat input and display
 if "claude_messages" not in st.session_state:
