@@ -37,17 +37,17 @@ for message in st.session_state.claude_messages:
         st.markdown(message["content"])
 
 # Input for new message
-user_question = st.chat_input("What is up?")  # Using chat_input
+user_question = st.chat_input("What is up?")
 if user_question:
-    # Check if the last message in the chat history is from the user
-    if not st.session_state.claude_messages or st.session_state.claude_messages[-1]["role"] == "assistant":
+    # Check if the last message in the chat history is NOT from the user
+    if not st.session_state.claude_messages or st.session_state.claude_messages[-1]["role"] != "user":
         st.session_state.claude_messages.append({"role": "user", "content": user_question})
         with st.chat_message("user"):
             st.markdown(user_question)
         with st.chat_message("assistant"):
             with st.spinner('Waiting for Claude to respond...'):
                 response_content = run_claude(st.session_state.claude_messages, system_prompt)
-                response_text = response_content[0].text  # Extract the text from the first content block
+                response_text = response_content[0].text
                 st.markdown(response_text)
                 st.session_state.claude_messages.append({"role": "assistant", "content": response_text})
     else:
