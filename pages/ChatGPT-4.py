@@ -3,10 +3,10 @@ import streamlit as st
 
 # Check if coming from a different app and reset chat
 if 'last_app' not in st.session_state or st.session_state['last_app'] != 'gpt-4':
-    st.session_state['messages'] = []
-    st.session_state['thread_id'] = None  # Reset the thread ID
+    st.session_state['gpt4_messages'] = []
+    st.session_state['gpt4_thread_id'] = None
 
-st.session_state['last_app'] = 'ChatGPT-4'
+st.session_state['last_app'] = 'gpt-4'
 
 # Initialize OpenAI client with API key from Streamlit secrets
 openai.api_key = st.secrets["OPENAI_API_KEY"]
