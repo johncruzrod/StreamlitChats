@@ -42,10 +42,6 @@ st.markdown(
         align-items: center;
         height: 200px; 
     }
-    img {
-        max-height: 100%;
-        max-width: 100%;
-    }
     </style>
     """,
     unsafe_allow_html=True
@@ -66,12 +62,7 @@ col1, col2, col3 = st.columns((1, 1, 1))
 with col1:
     with st.container():
         st.markdown('<div class="model-title">Chat with Gemini 1.5 Pro</div>', unsafe_allow_html=True)
-        div_with_image = """
-        <div class="image-container">
-            <img src="gemini.png">
-        </div>
-        """
-        st.markdown(div_with_image, unsafe_allow_html=True) 
+        st.image("gemini.png", use_column_width=True)  # Assuming gemini.png is in the same directory
         st.markdown(
             """
             <div class="model-description">
@@ -81,15 +72,11 @@ with col1:
             unsafe_allow_html=True
         )
 
+# Repeat the same structure for col2 and col3 with their respective images and descriptions
 with col2:
     with st.container():
         st.markdown('<div class="model-title">Chat with GPT-4</div>', unsafe_allow_html=True)
-        div_with_image = """
-        <div class="image-container">
-            <img src="gpt4.png">
-        </div>
-        """
-        st.markdown(div_with_image, unsafe_allow_html=True) 
+        st.image("gpt4.png", use_column_width=True)  
         st.markdown(
             """
             <div class="model-description">
@@ -102,12 +89,7 @@ with col2:
 with col3:
     with st.container():
         st.markdown('<div class="model-title">Chat with Claude 3 Opus</div>', unsafe_allow_html=True)
-        div_with_image = """
-        <div class="image-container">
-            <img src="claude.png">
-        </div>
-        """
-        st.markdown(div_with_image, unsafe_allow_html=True) 
+        st.image("claude.png", use_column_width=True)  
         st.markdown(
             """
             <div class="model-description">
