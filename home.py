@@ -7,65 +7,92 @@ st.markdown(
     """
     <style>
     .title {
-        /* styles omitted for brevity */
-    }
-    .intro {
-        /* styles omitted for brevity */
-    }
-    .model-card {
-        /* styles omitted for brevity */
-    }
-    .model-card:hover {
-        /* styles omitted for brevity */
-    }
-    .model-image {
-        /* styles omitted for brevity */
+        font-size: 36px;
+        font-weight: bold;
+        color: #1f77b4;
+        margin-bottom: 20px;
     }
     .model-title {
-        /* styles omitted for brevity */
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-top: 20px;
+        margin-bottom: 10px;
     }
     .model-description {
-        /* styles omitted for brevity */
+        font-size: 18px;
+        margin-bottom: 20px;
     }
-    .bottom-text {
-        /* styles omitted for brevity */
+    .css-1q8dd3e {
+        font-size: 18px;
+        color: #2ca02c;
+        font-weight: bold;
     }
-    .sidebar .sidebar-content {
-        /* styles omitted for brevity */
+    .container {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-st.markdown('<div class="title">Welcome to the Chat App! 👋</div>', unsafe_allow_html=True)
-st.markdown('<div class="intro">Choose an AI-powered chat app to start an engaging conversation:</div>', unsafe_allow_html=True)
+st.write('<div class="title">Welcome to the Chat App! 👋</div>', unsafe_allow_html=True)
 
-# Create columns for the models
+st.sidebar.success('Select a chat app from the sidebar.')
+
+st.markdown(
+    """
+    This is a multipage chat application built with Streamlit. You can choose between three chat apps powered by different AI models:
+    """
+)
+
 col1, col2, col3 = st.columns((1, 1, 1))
 
-# Displaying images and model details
-models = {
-    "Gemini 1.5 Pro": "gemini.png",
-    "GPT-4": "gpt4.png",
-    "Claude 3 Opus": "claude.png"
-}
+with col1:
+    with st.container():
+        st.image("gemini.png", use_column_width=True)
+        st.markdown('<div class="model-title">Chat with Gemini 1.5 Pro</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by Vertex AI SDK and the Gemini model, this chat app utilizes Google's state-of-the-art Gemini 1.5 Pro model for engaging conversations. Gemini 1.5 Pro is known for its high-quality responses and ability to maintain context throughout the chat.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-for i, (model_name, image_path) in enumerate(models.items()):
-    with (col1, col2, col3)[i]:
-        st.markdown(f"<div class='model-card'>", unsafe_allow_html=True)
-        st.image(image_path, width=200, caption=model_name, output_format="PNG")
-        st.markdown(f"""
-            <h3 class='model-title'>{model_name}</h3>
-            <p class='model-description'>A description specific to {model_name}.</p>
-        </div>
-        """, unsafe_allow_html=True)
+with col2:
+    with st.container():
+        st.image("gpt4.png", use_column_width=True)
+        st.markdown('<div class="model-title">Chat with GPT-4</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by OpenAI's GPT-4 model, this chat app leverages the advanced language understanding and generation capabilities of GPT-4. GPT-4 is renowned for its ability to engage in human-like conversations, provide informative responses, and assist with a wide range of tasks.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-# Sidebar navigation
-st.sidebar.title("Navigation")
-app_selection = st.sidebar.radio("Select an app", ["Home"] + list(models.keys()))
+with col3:
+    with st.container():
+        st.image("claude.png", use_column_width=True)
+        st.markdown('<div class="model-title">Chat with Claude 3 Opus</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by Anthropic's Claude 3 Opus model, this chat app offers an interactive experience with Claude, an AI assistant trained using constitutional AI principles. Claude 3 Opus excels at providing thoughtful and coherent responses while adhering to ethical guidelines.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-if app_selection != "Home":
-    st.sidebar.success(f"You selected: {app_selection}")
-else:
-    st.markdown('<div class="bottom-text">👈 Select a chat app from the sidebar to start chatting!</div>', unsafe_allow_html=True)
+st.markdown(
+    """
+    **👈 Select a chat app from the sidebar to start chatting!**
+    """
+)
