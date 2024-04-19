@@ -50,6 +50,8 @@ if 'gemini_chat' not in st.session_state:
 
 if "gemini_messages" not in st.session_state:
     st.session_state.gemini_messages = []
+if "conversation_history" not in st.session_state:
+    st.session_state.conversation_history = []  # Initialize conversation history
 
 for message in st.session_state.gemini_messages:
     with st.chat_message(message["role"]):
@@ -58,13 +60,14 @@ for message in st.session_state.gemini_messages:
 user_input = st.chat_input("What is up?")
 if user_input:
     st.session_state.gemini_messages.append({"role": "user", "content": user_input})
+    st.session_state.conversation_history.append(f"user: {user_input}")  # Update history
+
     with st.chat_message("user"):
         st.markdown(user_input)
     with st.chat_message("assistant"):
         with st.spinner('Waiting for the assistant to respond...'):
-            conversation_history = [f"{message['role']}: {message['content']}" for message in st.session_state.gemini_messages]
             response = st.session_state.gemini_chat.send_message(
-                conversation_history,
+                st.session_state.conversation_history,  # Use the stored history
                 generation_config=generation_config,
                 safety_settings=safety_settings
             )
@@ -74,3 +77,4 @@ if user_input:
                 response_text = response.text
                 st.markdown(response_text)
                 st.session_state.gemini_messages.append({"role": "assistant", "content": response_text})
+                st.session_state.conversation_history.append(f"assistant: {response_text}")  # Update history
