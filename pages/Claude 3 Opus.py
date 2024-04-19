@@ -17,7 +17,7 @@ st.session_state['last_app'] = 'claude'
 def send_message_to_claude(messages):
     url = "https://api.anthropic.com/v1/messages"
     headers = {
-        "Authorization": f"Bearer {st.secrets['anthropic_api_token']}",
+        "Authorization": f"Bearer {st.secrets['anthropic']['api_token']}",
         "Content-Type": "application/json"
     }
     body = {
