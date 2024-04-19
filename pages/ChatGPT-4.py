@@ -47,30 +47,25 @@ with col2:
     # Initialize OpenAI client with API key from Streamlit secrets
     openai.api_key = st.secrets["OPENAI_API_KEY"]
     
-    # Streamlit UI setup
     if 'gpt4_thread_id' not in st.session_state:
         st.session_state['gpt4_thread_id'] = None
     if "gpt4_messages" not in st.session_state:
         st.session_state.gpt4_messages = []
     
     for message in st.session_state.gpt4_messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+        with st.container():
+            st.chat_message(message["role"], message["content"])
     
-    user_question = st.chat_input("What is up?")
-    if user_question:
+    user_question = st.text_input("What is up?", key="gpt4_input")
+    if st.button('Send', key='gpt4_send'):
         st.session_state.gpt4_messages.append({"role": "user", "content": user_question})
-        with st.chat_message("user"):
-            st.markdown(user_question)
-        with st.chat_message("assistant"):
-            with st.spinner('Waiting for the assistant to respond...'):
-                result, st.session_state['gpt4_thread_id'] = run_assistant(user_question, st.session_state['gpt4_thread_id'])
-                if isinstance(result, str):
-                    st.error(result)
-                else:
-                    for message in result:
-                        if message.role == "assistant":
-                            response = message.content[0].text.value
-                            st.markdown(response)
-                            st.session_state.gpt4_messages.append({"role": "assistant", "content": response})
-                            break
+        with st.spinner('Waiting for the assistant to respond...'):
+            result, st.session_state['gpt4_thread_id'] = run_assistant(user_question, st.session_state['gpt4_thread_id'])
+            if isinstance(result, str):
+                st.error(result)
+            else:
+                for message in result:
+                    if message.role == "assistant":
+                        response = message.content[0].text.value
+                        st.session_state.gpt4_messages.append({"role": "assistant", "content": response})
+                        st.chat_message("assistant", response)
