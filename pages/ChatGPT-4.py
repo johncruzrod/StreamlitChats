@@ -40,34 +40,20 @@ def run_assistant(question, thread_id=None):
 
 # Streamlit UI setup
 st.title('Chat with GPT-4')
-
 if 'gpt4_thread_id' not in st.session_state:
     st.session_state['gpt4_thread_id'] = None
-if "user_messages" not in st.session_state:
-    st.session_state.user_messages = []
+if "gpt4_messages" not in st.session_state:
+    st.session_state.gpt4_messages = []
 
-# Display chat history with generated assistant responses
-for user_message in st.session_state.user_messages:
-    with st.chat_message("user"):
-        st.markdown(user_message)
-    
-    with st.chat_message("assistant"):
-        result, _ = run_assistant(user_message, st.session_state['gpt4_thread_id'])
-        if isinstance(result, str):
-            st.error(result)
-        else:
-            for message in result:
-                if message.role == "assistant":
-                    response = message.content[0].text.value
-                    st.markdown(response)
-                    break
+for message in st.session_state.gpt4_messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
 user_question = st.chat_input("What is up?")
 if user_question:
-    st.session_state.user_messages.append(user_question)
+    st.session_state.gpt4_messages.append({"role": "user", "content": user_question})
     with st.chat_message("user"):
         st.markdown(user_question)
-    
     with st.chat_message("assistant"):
         with st.spinner('Waiting for the assistant to respond...'):
             result, st.session_state['gpt4_thread_id'] = run_assistant(user_question, st.session_state['gpt4_thread_id'])
@@ -78,4 +64,5 @@ if user_question:
                     if message.role == "assistant":
                         response = message.content[0].text.value
                         st.markdown(response)
+                        st.session_state.gpt4_messages.append({"role": "assistant", "content": response})
                         break
