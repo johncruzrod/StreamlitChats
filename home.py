@@ -1,65 +1,98 @@
 import streamlit as st
 
-# Set page config
-st.set_page_config(page_title="Welcome to the AI Chat Models", page_icon="🤖", layout="wide")
+st.set_page_config(page_title="Welcome", page_icon="👋", layout="wide")
 
-# Header of the page
-st.title('Welcome to the Chat App! 👋')
+# Custom CSS styles
+st.markdown(
+    """
+    <style>
+    .title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #1f77b4;
+        margin-bottom: 20px;
+    }
+    .model-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    .model-description {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    .css-1q8dd3e {
+        font-size: 18px;
+        color: #2ca02c;
+        font-weight: bold;
+    }
+    .container {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-# Use container and columns to create boxes around each model's description
-with st.container():
-    col1, col2, col3 = st.columns([1, 1, 1])
+st.write('<div class="title">Welcome to the Chat App! 👋</div>', unsafe_allow_html=True)
 
-    # CSS to inject contained in a markdown
-    st.markdown("""
-        <style>
-        .box {
-            border: 1px solid #9baacf;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
-        }
-        .image {
-            height: 150px;  # Adjust if needed
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+st.sidebar.success('Select a chat app from the sidebar.')
 
-    with col1:
-        st.markdown("<div class='box'>", unsafe_allow_html=True)
-        st.image("gemini.png", use_column_width=True, caption='Google Gemini 1.5 Pro', classes='image')
-        st.header("Google Gemini 1.5 Pro 🌌")
-        st.write("""
-            Google's Gemini 1.5 Pro is a cutting-edge chatbot model powered by Vertex AI SDK. 
-            This model is exceptional at understanding context and generating human-like responses.
-            It's versatile and can engage in a wide range of conversation topics.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+st.markdown(
+    """
+    This is a multipage chat application built with Streamlit. You can choose between three chat apps powered by different AI models:
+    """
+)
 
-    with col2:
-        st.markdown("<div class='box'>", unsafe_allow_html=True)
-        st.image("gpt4.png", use_column_width=True, caption='OpenAI GPT-4', classes='image')
-        st.header("GPT-4 🧠")
-        st.write("""
-            OpenAI's GPT-4 is a top-tier language model renowned for its extensive knowledge and comprehension.
-            It's adept at performing a variety of tasks, including answering complex questions and creating content
-            with depth and nuance.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+col1, col2, col3 = st.columns((1, 1, 1))
 
-    with col3:
-        st.markdown("<div class='box'>", unsafe_allow_html=True)
-        st.image("claude.png", use_column_width=True, caption='Claude 3 Opus', classes='image')
-        st.header("Claude 3 Opus 🎶")
-        st.write("""
-            Claude 3 Opus by Anthropic focuses on safety and ethical alignment in AI conversations.
-            It ensures that responses are not only accurate but also respectful and considerate of the user's intentions.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+with col1:
+    with st.container():
+        st.image("gemini.png", use_column_width=True)
+        st.markdown('<div class="model-title">Chat with Gemini 1.5 Pro</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by Vertex AI SDK and the Gemini model, this chat app utilizes Google's state-of-the-art Gemini 1.5 Pro model for engaging conversations. Gemini 1.5 Pro is known for its high-quality responses and ability to maintain context throughout the chat.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-# Footer
-st.markdown("👈 Select a chat app from the sidebar to start chatting! Enjoy exploring different AI chat experiences here!")
+with col2:
+    with st.container():
+        st.image("gpt4.png", use_column_width=True)
+        st.markdown('<div class="model-title">Chat with GPT-4</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by OpenAI's GPT-4 model, this chat app leverages the advanced language understanding and generation capabilities of GPT-4. GPT-4 is renowned for its ability to engage in human-like conversations, provide informative responses, and assist with a wide range of tasks.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+with col3:
+    with st.container():
+        st.image("claude.png", use_column_width=True)
+        st.markdown('<div class="model-title">Chat with Claude 3 Opus</div>', unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div class="model-description">
+            Powered by Anthropic's Claude 3 Opus model, this chat app offers an interactive experience with Claude, an AI assistant trained using constitutional AI principles. Claude 3 Opus excels at providing thoughtful and coherent responses while adhering to ethical guidelines.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+st.markdown(
+    """
+    **👈 Select a chat app from the sidebar to start chatting!**
+    """
+)
