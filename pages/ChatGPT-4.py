@@ -59,10 +59,10 @@ if user_question:
             result, st.session_state['gpt4_thread_id'] = run_assistant(user_question, st.session_state['gpt4_thread_id'])
             if isinstance(result, str):
                 st.error(result)
-            else:
+            elif result is not None:  # Check if messages were retrieved 
                 for message in result:
                     if message.role == "assistant":
                         response = message.content[0].text.value
                         st.markdown(response)
                         st.session_state.gpt4_messages.append({"role": "assistant", "content": response})
-                        break
+                        break 
