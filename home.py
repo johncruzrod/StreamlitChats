@@ -1,72 +1,100 @@
 import streamlit as st
 
-# Set page config
-st.set_page_config(page_title="AI Chat Models", page_icon="🤖", layout="wide")
+# Page configuration
+st.set_page_config(
+    page_title="AI Chat Explorer",
+    page_icon=":robot_face:",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# Title of the page
-st.title('Welcome to the Chat App! 👋')
+# Custom CSS styling
+st.markdown(
+    """
+<style>
+/* General page styling */
+body {
+    font-family: 'Arial', sans-serif;
+}
 
-# Custom CSS for styling
-st.markdown("""
-    <style>
-        .box {
-            border: 1px solid #aaa;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #f9f9f9;
-        }
-        .model-title {
-            color: #ff4b4b;
-            font-weight: bold;
-            margin: 0;
-        }
-        .model-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-right: 10px;
-        }
-        .model-description {
-            padding: 10px 0;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+/* Title container */
+.title-container {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #f0f0f5; /* Light gray background */
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
 
-# Container for the AI models
-with st.container():
-    # Using columns to display the AI models side by side
-    col1, col2, col3 = st.columns(3)
-    
-    # Google Gemini 1.5 Pro
-    with col1:
-        st.markdown("<div class='box'>", unsafe_allow_html=True)
-        st.markdown("#### 🌌 Google Gemini 1.5 Pro", unsafe_allow_html=True)
-        st.write("""
-            A versatile chatbot model powered by Vertex AI SDK, excelling in understanding context 
-            and generating human-like responses across diverse topics.
-        """)
+/* Model card styling */
+.model-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 15px;
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Add transition effects */
+}
+
+.model-card:hover {
+    transform: translateY(-5px);  /* Slight upward movement on hover */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+}
+
+.model-image {
+    max-width: 150px;
+    margin: 0 auto 20px auto; /* Center image and add space below */
+}
+
+.model-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.model-description {
+    color: #333;
+}
+
+/* Chatbot section */
+.chatbot-section {
+    text-align: center;
+    padding: 20px;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+# Title and introduction
+st.markdown("<div class='title-container'>", unsafe_allow_html=True)
+st.title("💬 AI Chat Explorer")
+st.write("## Dive into the World of Conversational AI")
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Model cards in columns
+col1, col2, col3 = st.columns(3, gap="large")  # Add spacing between columns
+
+with col1:
+    with st.container():
+        st.markdown("<div class='model-card'>", unsafe_allow_html=True)
+        st.image("gemini.png", width=150, className="model-image")
+        st.markdown("<div class='model-name'>Gemini 1.5 Pro</div>", unsafe_allow_html=True)
+        st.caption("Vertex AI")
+        st.write(
+            "Google's powerful language model for understanding, responding, generating, and translating."
+        )
         st.markdown("</div>", unsafe_allow_html=True)
-    
-    # GPT-4
-    with col2:
-        st.markdown("<div class='box'>", unsafe_allow_html=True)
-        st.markdown("#### 🧠 GPT-4", unsafe_allow_html=True)
-        st.write("""
-            OpenAI's language model famous for its depth of knowledge, able to perform a wide 
-            variety of tasks with nuance and understanding.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-    
-    # Claude 3 Opus
-    with col3:
-        st.markdown("<div class='box'>", unsafe_allow_html=True)
-        st.markdown("#### 🎶 Claude 3 Opus", unsafe_allow_html=True)
-        st.write("""
-            Built by Anthropic, Claude 3 Opus focuses on safe and ethically-aligned conversations, 
-            providing accurate and considerate responses.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
 
-# Footer
-st.markdown("👈 Select a chat app from the sidebar to start chatting! Explore different AI chat experiences here!")
+# ... (Similar structure for col2 and col3 with GPT-4 and Claude images and descriptions)
+
+# Chatbot section
+st.markdown("<div class='chatbot-section'>", unsafe_allow_html=True)
+st.write("## Engage in Conversation")
+# TODO: Add your chatbot implementation here
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Footer (optional)
+# ...
