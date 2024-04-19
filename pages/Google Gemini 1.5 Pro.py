@@ -4,8 +4,6 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 import vertexai.preview.generative_models as generative_models
 
-st.set_page_config(layout="wide")
-
 # Load the service account credentials from Streamlit secrets
 service_account_info = {
     "type": st.secrets["gcp"]["type"],
