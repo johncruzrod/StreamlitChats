@@ -1,3 +1,4 @@
+
 import streamlit as st
 from anthropic import Anthropic
 import os
@@ -15,19 +16,13 @@ if 'last_app' not in st.session_state or st.session_state['last_app'] != 'claude
 st.session_state['last_app'] = 'claude'
 
 # Function to format and send messages to Claude API
-def run_claude(messages, system_prompt):
-    # Prepend the system prompt to the conversation
-    messages = [{"role": "system", "content": system_prompt}] + messages
-
+def run_claude(messages):
     response = client.messages.create(
-        max_tokens=4000,
+        max_tokens=1024,
         messages=messages,
         model="claude-3-opus-20240229",
     )
     return response.content  # Extract assistant's response
-
-# Define the hard-coded system prompt
-system_prompt = "You are a helpful AI assistant that interacts with users, providing assistance and clear responses."
 
 # Handle chat input and display
 if "claude_messages" not in st.session_state:
@@ -48,7 +43,7 @@ if user_question:
             st.markdown(user_question)
         with st.chat_message("assistant"):
             with st.spinner('Waiting for Claude to respond...'):
-                response_content = run_claude(st.session_state.claude_messages, system_prompt)
+                response_content = run_claude(st.session_state.claude_messages)
                 response_text = response_content[0].text  # Extract the text from the first content block
                 st.markdown(response_text)
                 st.session_state.claude_messages.append({"role": "assistant", "content": response_text})
