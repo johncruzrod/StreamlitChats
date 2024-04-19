@@ -6,7 +6,6 @@ import os
 # Assuming you've set ANTHROPIC_API_KEY in your environment or .env file
 client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
-st.set_page_config(layout="wide")
 st.title('Chat with Claude')  # Simplified title
 
 # Check if coming from a different app and reset chat
