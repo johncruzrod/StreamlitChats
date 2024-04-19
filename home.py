@@ -1,37 +1,43 @@
 import streamlit as st
 
-# Set page config
-st.set_page_config(page_title="Welcome", page_icon="👋", layout="wide")
+# Page configuration (keep as before)
+st.set_page_config(
+    page_title="AI Chat Explorer",
+    page_icon="🤖",
+    layout="wide"
+)
 
-# Header of the page
-st.title('Welcome to the Chat App! 👋')
+# Welcome message (keep as before)
+st.title("🤖 AI Chat Explorer")
+st.write("## Engage with Cutting-Edge Language Models!")
 
-# Sidebar selection
-app_choice = st.sidebar.radio("Choose your Chat App", ("Chat with Gemini 1.5 Pro", "Chat with GPT-4", "Chat with Claude 3 Opus"))
-
-# Description based on the selection
-if app_choice == "Chat with Gemini 1.5 Pro":
-    app_description = """
-    **Gemini 1.5 Pro** is Google's latest chatbot model powered by Vertex AI SDK. It excels in understanding and generating 
-    human-like text based on the input provided. It's designed for versatility and can handle a broad range of conversation topics.
+# Model descriptions (remove the expander)
+st.markdown(
     """
-elif app_choice == "Chat with GPT-4":
-    app_description = """
-    **GPT-4** by OpenAI is a state-of-the-art language model known for its depth and breadth of knowledge. 
-    It can assist in various tasks, including answering questions, writing content, and more, providing
-    informative and contextually relevant responses.
-    """
-elif app_choice == "Chat with Claude 3 Opus":
-    app_description = """
-    **Claude 3 Opus** is a powerful conversational AI developed by Anthropic. It focuses on safety and alignment 
-    to provide responses that are not only accurate but also considerate and aligned with user intent.
-    """
+    **Choose your AI companion and experience the future of conversation!**
 
-# Display the selected chat app description
-st.markdown(app_description)
+    **Gemini 1.5 Pro (Vertex AI):** Google's advanced language model, trained on a massive dataset, excels in understanding and responding to complex queries, generating different creative text formats, and translating languages.
 
-# Footer
-st.markdown("""
-    👈 Select a chat app from the sidebar to start chatting!
-    Enjoy exploring different AI chat experiences here!
-""")
+    **GPT-4 (OpenAI):** A powerhouse in the AI world, renowned for its ability to generate human-quality text, translate languages, write different kinds of creative content, and answer your questions in an informative way.
+
+    **Claude 3 Opus (Anthropic):**  Known for its safety and helpfulness, this AI assistant is trained to be informative and comprehensive, providing summaries of factual topics or creating stories. 
+    """
+)
+
+# Model selection using radio buttons (make them functional)
+model_selection = st.radio(
+    "Select Your AI:", options=["Gemini 1.5 Pro", "GPT-4", "Claude 3 Opus"]
+)
+
+# Placeholder for chat functionality based on selected model
+st.write(f"## You've chosen: {model_selection}")
+
+# Add your chat implementation logic here based on the selected model
+
+# Footer (optional, keep as before)
+st.sidebar.markdown("---")
+st.sidebar.info(
+    "This app showcases the capabilities of different large language models. "
+    "Learn more about them: [Vertex AI](https://cloud.google.com/vertex-ai), "
+    "[OpenAI](https://openai.com/), [Anthropic](https://www.anthropic.com/)"
+)
