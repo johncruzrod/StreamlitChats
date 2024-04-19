@@ -5,7 +5,6 @@ import streamlit as st
 if 'last_app' not in st.session_state or st.session_state['last_app'] != 'gpt-4':
     st.session_state['gpt4_messages'] = []
     st.session_state['gpt4_thread_id'] = None
-
 st.session_state['last_app'] = 'gpt-4'
 
 # Initialize OpenAI client with API key from Streamlit secrets
@@ -38,23 +37,22 @@ def run_assistant(question, thread_id=None):
     else:
         return f"Run status: {run.status}", thread_id
 
+# Streamlit UI setup
 st.set_page_config(layout="wide")
 col1, col2, col3 = st.columns([1, 8, 1])
 
 with col1:
+    pass  # Left padding
 
-# Streamlit UI setup
 with col2:
     st.title('Chat with GPT-4')
     if 'gpt4_thread_id' not in st.session_state:
         st.session_state['gpt4_thread_id'] = None
     if "gpt4_messages" not in st.session_state:
         st.session_state.gpt4_messages = []
-    
     for message in st.session_state.gpt4_messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
-    
     user_question = st.chat_input("What is up?")
     if user_question:
         st.session_state.gpt4_messages.append({"role": "user", "content": user_question})
@@ -74,4 +72,4 @@ with col2:
                             break
 
 with col3:
-
+    pass  # Right padding
