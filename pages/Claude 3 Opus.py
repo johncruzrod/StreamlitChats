@@ -42,7 +42,8 @@ if user_question:
             st.markdown(user_question)
         with st.chat_message("assistant"):
             with st.spinner('Waiting for Claude to respond...'):
-                response_text = run_claude(st.session_state.claude_messages)
+                response_content = run_claude(st.session_state.claude_messages)
+                response_text = response_content[0].text  # Extract the text from the first content block
                 st.markdown(response_text)
                 st.session_state.claude_messages.append({"role": "assistant", "content": response_text})
     else:
