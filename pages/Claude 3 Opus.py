@@ -21,7 +21,7 @@ def run_claude(messages):
         messages=messages,
         model="claude-3-opus-20240229",
     )
-    return response['messages'][-1]['text']  # Extract assistant's response
+    return response[0].content  # Extract assistant's response
 
 # Handle chat input and display
 if "claude_messages" not in st.session_state:
@@ -40,6 +40,6 @@ if user_question:
         st.markdown(user_question)
     with st.chat_message("assistant"):
         with st.spinner('Waiting for Claude to respond...'):
-            response = run_claude(st.session_state.claude_messages)
-            st.markdown(response)
-            st.session_state.claude_messages.append({"role": "assistant", "content": response})
+            response_text = run_claude(st.session_state.claude_messages)
+            st.markdown(response_text)
+            st.session_state.claude_messages.append({"role": "assistant", "content": response_text})
