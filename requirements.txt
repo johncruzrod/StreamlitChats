@@ -1,3 +1,4 @@
 openai
 streamlit
 google-cloud-aiplatform
+requests
