@@ -1,7 +1,7 @@
 import openai
 import streamlit as st
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout=‘wide’)
 
 # Check if coming from a different app and reset chat
 if 'last_app' not in st.session_state or st.session_state['last_app'] != 'gpt-4':
