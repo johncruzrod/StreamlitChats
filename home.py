@@ -2,16 +2,79 @@ import streamlit as st
 
 st.set_page_config(page_title="Welcome", page_icon="👋")
 
-st.write("# Welcome to the Chat App! 👋")
+# Custom CSS styles
+st.markdown(
+    """
+    <style>
+    .title {
+        font-size: 36px;
+        font-weight: bold;
+        color: #1f77b4;
+        margin-bottom: 20px;
+    }
+    .model-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2ca02c;
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+    .model-description {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    .sidebar-success {
+        font-size: 18px;
+        color: #2ca02c;
+        font-weight: bold;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-st.sidebar.success("Select a chat app from the sidebar.")
+st.write('<div class="title">Welcome to the Chat App! 👋</div>', unsafe_allow_html=True)
+
+st.sidebar.success('<div class="sidebar-success">Select a chat app from the sidebar.</div>', unsafe_allow_html=True)
 
 st.markdown(
     """
-    This is a multipage chat application built with Streamlit.
-    You can choose between two chat apps:
-    - Chat with Gemini: Powered by Vertex AI SDK and the Gemini model.
-    - Chat with GPT-4: Powered by OpenAI's GPT-4 model.
+    This is a multipage chat application built with Streamlit. You can choose between three chat apps powered by different AI models:
+    """
+)
+
+st.markdown('<div class="model-title">Chat with Gemini 1.5 Pro</div>', unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="model-description">
+    Powered by Vertex AI SDK and the Gemini model, this chat app utilizes Google's state-of-the-art Gemini 1.5 Pro model for engaging conversations. Gemini 1.5 Pro is known for its high-quality responses and ability to maintain context throughout the chat.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown('<div class="model-title">Chat with GPT-4</div>', unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="model-description">
+    Powered by OpenAI's GPT-4 model, this chat app leverages the advanced language understanding and generation capabilities of GPT-4. GPT-4 is renowned for its ability to engage in human-like conversations, provide informative responses, and assist with a wide range of tasks.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown('<div class="model-title">Chat with Claude 3 Opus</div>', unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="model-description">
+    Powered by Anthropic's Claude 3 Opus model, this chat app offers an interactive experience with Claude, an AI assistant trained using constitutional AI principles. Claude 3 Opus excels at providing thoughtful and coherent responses while adhering to ethical guidelines.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
     **👈 Select a chat app from the sidebar to start chatting!**
     """
 )
