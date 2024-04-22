@@ -50,8 +50,31 @@ if 'gemini_chat' not in st.session_state:
 
 if "gemini_messages" not in st.session_state:
     st.session_state.gemini_messages = []
+
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = []  # Initialize conversation history
+
+# File upload
+uploaded_files = st.file_uploader("Choose files", type=["jpg", "jpeg", "png", "mp4", "pdf", "mp3", "wav"], accept_multiple_files=True)
+
+if uploaded_files:
+    file_contents = [file.read() for file in uploaded_files]
+    file_names = [file.name for file in uploaded_files]
+    file_parts = []
+    for file_content, file_name in zip(file_contents, file_names):
+        mime_type = None
+        if file_name.lower().endswith(('.jpg', '.jpeg', '.png')):
+            mime_type = "image/jpeg"
+        elif file_name.lower().endswith('.mp4'):
+            mime_type = "video/mp4"
+        elif file_name.lower().endswith('.pdf'):
+            mime_type = "application/pdf"
+        elif file_name.lower().endswith(('.mp3', '.wav')):
+            mime_type = "audio/mpeg"
+        if mime_type is None:
+            raise ValueError("Unsupported file type")
+        file_parts.append(Part.from_data(mime_type=mime_type, data=file_content))
+    st.session_state.conversation_history.append(f"user: Uploaded files: {', '.join(file_names)}")  # Update history with uploaded files
 
 for message in st.session_state.gemini_messages:
     with st.chat_message(message["role"]):
@@ -64,17 +87,18 @@ if user_input:
 
     with st.chat_message("user"):
         st.markdown(user_input)
+
     with st.chat_message("assistant"):
         with st.spinner('Waiting for the assistant to respond...'):
             response = st.session_state.gemini_chat.send_message(
-                st.session_state.conversation_history,  # Use the stored history
+                st.session_state.conversation_history + file_parts,  # Include files and conversation history
                 generation_config=generation_config,
                 safety_settings=safety_settings
             )
             if isinstance(response, str):
                 st.error(response)
             else:
-                response_text = response.text
+                response_text = response.candidates[0].content.parts[0].text
                 st.markdown(response_text)
                 st.session_state.gemini_messages.append({"role": "assistant", "content": response_text})
                 st.session_state.conversation_history.append(f"assistant: {response_text}")  # Update history
