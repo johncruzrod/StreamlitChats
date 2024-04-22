@@ -56,11 +56,11 @@ if "conversation_history" not in st.session_state:
 
 # File upload
 uploaded_files = st.file_uploader("Choose files", type=["jpg", "jpeg", "png", "mp4", "pdf", "mp3", "wav"], accept_multiple_files=True)
+file_parts = []  # Initialize file_parts outside the if block
 
 if uploaded_files:
     file_contents = [file.read() for file in uploaded_files]
     file_names = [file.name for file in uploaded_files]
-    file_parts = []
     for file_content, file_name in zip(file_contents, file_names):
         mime_type = None
         if file_name.lower().endswith(('.jpg', '.jpeg', '.png')):
