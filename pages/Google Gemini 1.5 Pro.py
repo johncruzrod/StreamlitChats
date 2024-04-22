@@ -88,24 +88,48 @@ with col1:
                     st.session_state.conversation_history.append(f"assistant: {response_text}")  # Update history
 
 with col2:
-    # File upload
-    uploaded_files = st.file_uploader("Choose files", type=["jpg", "jpeg", "png", "mp4", "pdf", "mp3", "wav"], accept_multiple_files=True)
-    file_parts = []  # Initialize file_parts
+    # Create a container for the file upload section
+    file_upload_container = st.container()
 
-    if uploaded_files:
-        file_contents = [file.read() for file in uploaded_files]
-        file_names = [file.name for file in uploaded_files]
-        for file_content, file_name in zip(file_contents, file_names):
-            mime_type = None
-            if file_name.lower().endswith(('.jpg', '.jpeg', '.png')):
-                mime_type = "image/jpeg"
-            elif file_name.lower().endswith('.mp4'):
-                mime_type = "video/mp4"
-            elif file_name.lower().endswith('.pdf'):
-                mime_type = "application/pdf"
-            elif file_name.lower().endswith(('.mp3', '.wav')):
-                mime_type = "audio/mpeg"
-            if mime_type is None:
-                raise ValueError("Unsupported file type")
-            file_parts.append(Part.from_data(mime_type=mime_type, data=file_content))
-        st.session_state.conversation_history.append(f"user: Uploaded files: {', '.join(file_names)}")  # Update history with uploaded files
+    # Apply CSS styling to keep the container at the bottom
+    st.markdown(
+        """
+        <style>
+        .file-upload-container {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 16.67%;
+            padding: 1rem;
+            background-color: white;
+            border-top: 1px solid #e6e6e6;
+            z-index: 1000;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Add the file upload section to the container
+    with file_upload_container:
+        # File upload
+        uploaded_files = st.file_uploader("Choose files", type=["jpg", "jpeg", "png", "mp4", "pdf", "mp3", "wav"], accept_multiple_files=True)
+        file_parts = []  # Initialize file_parts
+
+        if uploaded_files:
+            file_contents = [file.read() for file in uploaded_files]
+            file_names = [file.name for file in uploaded_files]
+            for file_content, file_name in zip(file_contents, file_names):
+                mime_type = None
+                if file_name.lower().endswith(('.jpg', '.jpeg', '.png')):
+                    mime_type = "image/jpeg"
+                elif file_name.lower().endswith('.mp4'):
+                    mime_type = "video/mp4"
+                elif file_name.lower().endswith('.pdf'):
+                    mime_type = "application/pdf"
+                elif file_name.lower().endswith(('.mp3', '.wav')):
+                    mime_type = "audio/mpeg"
+                if mime_type is None:
+                    raise ValueError("Unsupported file type")
+                file_parts.append(Part.from_data(mime_type=mime_type, data=file_content))
+            st.session_state.conversation_history.append(f"user: Uploaded files: {', '.join(file_names)}")  # Update history with uploaded files
