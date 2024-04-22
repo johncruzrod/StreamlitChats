@@ -43,7 +43,7 @@ safety_settings = {
 }
 
 # Streamlit UI setup
-st.title('Chat with Gemini')
+st.title('Chat with Gemini + Files')
 
 if 'gemini_chat' not in st.session_state:
     st.session_state.gemini_chat = model.start_chat()
