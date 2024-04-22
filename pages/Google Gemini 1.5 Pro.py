@@ -4,6 +4,9 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 import vertexai.preview.generative_models as generative_models
 
+# Set Streamlit page configuration
+st.set_page_config(layout="wide")
+
 # Load the service account credentials from Streamlit secrets
 service_account_info = {
     "type": st.secrets["gcp"]["type"],
@@ -45,60 +48,64 @@ safety_settings = {
 # Streamlit UI setup
 st.title('Chat with Gemini')
 
-if 'gemini_chat' not in st.session_state:
-    st.session_state.gemini_chat = model.start_chat()
+col1, col2 = st.columns([8, 2])
 
-if "gemini_messages" not in st.session_state:
-    st.session_state.gemini_messages = []
+with col1:
+    if 'gemini_chat' not in st.session_state:
+        st.session_state.gemini_chat = model.start_chat()
 
-if "conversation_history" not in st.session_state:
-    st.session_state.conversation_history = []  # Initialize conversation history
+    if "gemini_messages" not in st.session_state:
+        st.session_state.gemini_messages = []
 
-# File upload
-uploaded_files = st.file_uploader("Choose files", type=["jpg", "jpeg", "png", "mp4", "pdf", "mp3", "wav"], accept_multiple_files=True)
-file_parts = []  # Initialize file_parts outside the if block
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = []  # Initialize conversation history
 
-if uploaded_files:
-    file_contents = [file.read() for file in uploaded_files]
-    file_names = [file.name for file in uploaded_files]
-    for file_content, file_name in zip(file_contents, file_names):
-        mime_type = None
-        if file_name.lower().endswith(('.jpg', '.jpeg', '.png')):
-            mime_type = "image/jpeg"
-        elif file_name.lower().endswith('.mp4'):
-            mime_type = "video/mp4"
-        elif file_name.lower().endswith('.pdf'):
-            mime_type = "application/pdf"
-        elif file_name.lower().endswith(('.mp3', '.wav')):
-            mime_type = "audio/mpeg"
-        if mime_type is None:
-            raise ValueError("Unsupported file type")
-        file_parts.append(Part.from_data(mime_type=mime_type, data=file_content))
-    st.session_state.conversation_history.append(f"user: Uploaded files: {', '.join(file_names)}")  # Update history with uploaded files
+    for message in st.session_state.gemini_messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-for message in st.session_state.gemini_messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    user_input = st.chat_input("What is up?")
+    if user_input:
+        st.session_state.gemini_messages.append({"role": "user", "content": user_input})
+        st.session_state.conversation_history.append(f"user: {user_input}")  # Update history
 
-user_input = st.chat_input("What is up?")
-if user_input:
-    st.session_state.gemini_messages.append({"role": "user", "content": user_input})
-    st.session_state.conversation_history.append(f"user: {user_input}")  # Update history
+        with st.chat_message("user"):
+            st.markdown(user_input)
 
-    with st.chat_message("user"):
-        st.markdown(user_input)
+        with st.chat_message("assistant"):
+            with st.spinner('Waiting for the assistant to respond...'):
+                response = st.session_state.gemini_chat.send_message(
+                    st.session_state.conversation_history + file_parts,  # Include files and conversation history
+                    generation_config=generation_config,
+                    safety_settings=safety_settings
+                )
+                if isinstance(response, str):
+                    st.error(response)
+                else:
+                    response_text = response.candidates[0].content.parts[0].text
+                    st.markdown(response_text)
+                    st.session_state.gemini_messages.append({"role": "assistant", "content": response_text})
+                    st.session_state.conversation_history.append(f"assistant: {response_text}")  # Update history
 
-    with st.chat_message("assistant"):
-        with st.spinner('Waiting for the assistant to respond...'):
-            response = st.session_state.gemini_chat.send_message(
-                st.session_state.conversation_history + file_parts,  # Include files and conversation history
-                generation_config=generation_config,
-                safety_settings=safety_settings
-            )
-            if isinstance(response, str):
-                st.error(response)
-            else:
-                response_text = response.candidates[0].content.parts[0].text
-                st.markdown(response_text)
-                st.session_state.gemini_messages.append({"role": "assistant", "content": response_text})
-                st.session_state.conversation_history.append(f"assistant: {response_text}")  # Update history
+with col2:
+    # File upload
+    uploaded_files = st.file_uploader("Choose files", type=["jpg", "jpeg", "png", "mp4", "pdf", "mp3", "wav"], accept_multiple_files=True)
+    file_parts = []  # Initialize file_parts
+
+    if uploaded_files:
+        file_contents = [file.read() for file in uploaded_files]
+        file_names = [file.name for file in uploaded_files]
+        for file_content, file_name in zip(file_contents, file_names):
+            mime_type = None
+            if file_name.lower().endswith(('.jpg', '.jpeg', '.png')):
+                mime_type = "image/jpeg"
+            elif file_name.lower().endswith('.mp4'):
+                mime_type = "video/mp4"
+            elif file_name.lower().endswith('.pdf'):
+                mime_type = "application/pdf"
+            elif file_name.lower().endswith(('.mp3', '.wav')):
+                mime_type = "audio/mpeg"
+            if mime_type is None:
+                raise ValueError("Unsupported file type")
+            file_parts.append(Part.from_data(mime_type=mime_type, data=file_content))
+        st.session_state.conversation_history.append(f"user: Uploaded files: {', '.join(file_names)}")  # Update history with uploaded files
