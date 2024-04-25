@@ -17,7 +17,7 @@ st.session_state['last_app'] = 'claude'
 # Function to format and send messages to Claude API
 def run_claude(messages, system_prompt):
     response = client.messages.create(
-        max_tokens=1024,
+        max_tokens=4000,
         messages=messages,
         model="claude-3-opus-20240229",
         system=system_prompt,  # Pass the system prompt as a separate parameter
