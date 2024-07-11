@@ -19,7 +19,7 @@ def run_claude(messages, system_prompt):
     response = client.messages.create(
         max_tokens=4000,
         messages=messages,
-        model="claude-3-opus-20240229",
+        model="claude-3-5-sonnet-20240620",
         system=system_prompt,  # Pass the system prompt as a separate parameter
     )
     return response.content  # Extract assistant's response
